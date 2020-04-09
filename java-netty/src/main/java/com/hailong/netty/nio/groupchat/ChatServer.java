@@ -23,7 +23,7 @@ public class ChatServer {
         try {
             listenChannel =ServerSocketChannel.open();
             selector=Selector.open();
-            listenChannel.socket().bind(new InetSocketAddress(ConfigConst.PORT));  //端口板顶且启动服务器
+            listenChannel.socket().bind(new InetSocketAddress(ConfigConst.PORT));  //端口绑定且启动服务器
             listenChannel.configureBlocking(false);
             listenChannel.register(selector, SelectionKey.OP_ACCEPT);
             log.info("服务器初始化完成...");
@@ -38,6 +38,8 @@ public class ChatServer {
                 //获取事件（如果2秒钟还没有获取到事件则处理其他事情（即else部分代码））
                 int count = selector.select(2000);
                 if(count>0){
+                    //通过selector的selectedKeys选择已经注册在其上面的channel并且是正在发生事件的channel
+                    //通过SelectionKey可以得到channel
                     Iterator<SelectionKey> iterator = selector.selectedKeys().iterator();
                     while(iterator.hasNext()){
                         SelectionKey key = iterator.next();
@@ -45,7 +47,7 @@ public class ChatServer {
                         //如果获得了一个客户端连接事件
                         if(key.isAcceptable()){
                             SocketChannel socketChannel = listenChannel.accept();  //通过ServerSocketChannel获得客户端连接
-                            socketChannel.configureBlocking(false);
+                            socketChannel.configureBlocking(false);  //设置非阻塞模式
                             socketChannel.register(selector,SelectionKey.OP_READ);   //监听这个客户端SocketChannel的OP_READ事件
                             System.out.println(socketChannel.getRemoteAddress() + "  上线");
                         }else if (key.isReadable()){
@@ -69,11 +71,12 @@ public class ChatServer {
         //获取到Key相关的Channel
         SocketChannel channel = null;
         try{
-            channel=(SocketChannel) key.channel();
+            channel=(SocketChannel) key.channel();  //通过key得到channel
             ByteBuffer buffer=ByteBuffer.allocate(1024);
             //将channel【客户端发送的数据】的数据读到buffer中
             int count=channel.read(buffer);
 
+            //表示读取到了客户端数据
             if(count>0){
                 String msg=new String(buffer.array());
                 System.out.println("from 客户端:" +msg);
@@ -106,6 +109,7 @@ public class ChatServer {
         //selector.keys()表示所有注册到了selector上的Channel
 
 
+        //selector.keys()表示得到注册在selector上的所有的channel
         for(SelectionKey selectionKey:selector.keys()){
             Channel targetChannel= selectionKey.channel();
             //targetChannel instanceof SocketChannel  会排掉注册在Selector上的ServerSocketChannel
@@ -121,7 +125,7 @@ public class ChatServer {
     }
     public static void main(String[] args) {
         ChatServer chatServer = new ChatServer();
-        //chatServer.listen();
+        chatServer.listen();
     }
 
 }
