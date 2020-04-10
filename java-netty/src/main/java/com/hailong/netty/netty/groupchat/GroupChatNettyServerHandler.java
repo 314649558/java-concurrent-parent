@@ -13,15 +13,11 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j(topic = "c.GroupChatNettyServerHandler")
 public class GroupChatNettyServerHandler extends SimpleChannelInboundHandler<String> {
-
-
     /**
      * 1 定义一个channel 管理所有的channel[每个客户端连接都会有不同的channel]
      * 2 GlobalEventExecutor.INSTANCE 是一个全局的时间执行器，它是一个单例
      */
     private static ChannelGroup channelGroup=new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
-
-
     /**
      * 当channelhandler被加入的时候就会被立即调用
      *    如果有一个客户端连接服务端，那么Netty就会创建Handler 然后调用此方法
@@ -46,7 +42,7 @@ public class GroupChatNettyServerHandler extends SimpleChannelInboundHandler<Str
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
         Channel channel = ctx.channel();
-        channelGroup.writeAndFlush("[客户端]"+channel.remoteAddress() +"推出群聊\n");
+        channelGroup.writeAndFlush("[客户端]"+channel.remoteAddress() +"退出群聊\n");
     }
 
 
