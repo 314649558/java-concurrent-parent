@@ -13,19 +13,14 @@ message MyMessage{
         StudentType=0;  //enum的索引序号必须从0开始
         WorkerType=1;
     }
-
     //用来标识选择的是哪个类型
     DataType dataTyp=1;
-
     //表示每次只选择其中的一个对象【这样可以在数据传输的时候减少数据量】
     oneof dataBody{
         Student student=2;
         Worker worker=3;
     }
 }
-
-
-
 //Student 对象
 message Student{
     int32 id=1;
