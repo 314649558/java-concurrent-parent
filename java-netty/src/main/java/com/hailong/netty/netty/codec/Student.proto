@@ -1,0 +1,16 @@
+//指定protobuf 版本
+syntax = "proto3";
+//外部类类名，同样也是JAVA文件名
+option java_outer_classname = "StudentPOJO";
+
+//protobuf 用message管理数据
+//它会在StudentPOJO 内部生成一个内部类Student，Student才是数据发送的对象
+message Student {
+    //类型为int32(对应java语言中的int类型);
+    //字段名为id;
+    //1 表示的是序号，而不是值
+    int32 id = 1;
+    string name = 2;
+
+}
+

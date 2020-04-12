@@ -1,0 +1,8 @@
+             输出路径[=前后不要有空格]  源文件
+proto.exe     --java_out=.                 Student.proto
+
+
+
+说明
+1 codec 下表示使用ProtoBuf的单个数据传输对象
+2 codec2 下可以根据不同的需要传送不同的对象
