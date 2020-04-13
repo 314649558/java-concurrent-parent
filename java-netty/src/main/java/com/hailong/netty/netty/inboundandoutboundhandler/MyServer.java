@@ -40,7 +40,8 @@ public class MyServer {
 
                             pipeline.addLast(new MyLongToByteEncoder());//编码器
 
-                            pipeline.addLast(new MyByteToLongDecoder());//自定义解码器
+                            //pipeline.addLast(new MyByteToLongDecoder());//自定义解码器
+                            pipeline.addLast(new MyByteToLongDecoder2());//自定义解码器
                             //经过MyServerByteToLongDecoder解码后 消息会变成一个Long
                             //因此，这里可以直接接收Long类型的数据
                             pipeline.addLast(new MyServerMsgHandler());

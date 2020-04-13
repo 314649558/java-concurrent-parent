@@ -30,7 +30,8 @@ public class MyClient {
                         protected void initChannel(SocketChannel ch) throws Exception {
                             ChannelPipeline pipeline = ch.pipeline();
 
-                            pipeline.addLast(new MyByteToLongDecoder());
+                            //pipeline.addLast(new MyByteToLongDecoder());
+                            pipeline.addLast(new MyByteToLongDecoder2());
 
                             //发送数据是出栈，Handler会从尾部开始调用
                             pipeline.addLast(new MyLongToByteEncoder());
