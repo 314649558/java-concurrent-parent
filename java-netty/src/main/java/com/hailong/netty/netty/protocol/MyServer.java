@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
  * Created By:袁海龙[314649558@qq.com]
  * Created Date: 2020/4/12
  * Description:
- *    TCP 粘包和拆包问题分析案例
+ *    TCP 粘包和拆包问题分析案例-使用自定义协议和自定义编解码器
  */
 
 @Slf4j(topic = "c.MyServer")
