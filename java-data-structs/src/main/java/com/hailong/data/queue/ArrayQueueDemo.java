@@ -149,11 +149,10 @@ class ArrayQueue{
      * 显示头部数据
      */
     public int headShow(){
-        try{
-            return arr[front+1];
-        }catch (Exception e){
+        if(isEmpty()){
             throw new RuntimeException("队列为空，不能获取数据");
         }
+        return arr[front+1];
 
     }
 
