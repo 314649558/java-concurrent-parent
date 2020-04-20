@@ -12,6 +12,7 @@ import java.util.Scanner;
  *    该案例有以下几个问题
  *    1 数据取出后并没有真正的将其移除
  *    2 一旦数据添加满了后由于没有真正的移除，因此即使调用了get方法后也无法再次添加数据
+ *    3 可以利用下面的自定义环形队列来解决这个问题
  */
 public class ArrayQueueDemo {
     public static void main(String[] args) {
