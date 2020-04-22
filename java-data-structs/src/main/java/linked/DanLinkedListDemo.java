@@ -244,9 +244,6 @@ class DanLinkedList{
             temp=temp.next;  //后移【必须后移，否则会进入死循环】
         }
     }
-
-
-
 }
 
 /**
