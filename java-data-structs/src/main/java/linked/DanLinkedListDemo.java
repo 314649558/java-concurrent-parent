@@ -1,6 +1,8 @@
 package linked;
 
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import java.util.Stack;
 
 /**
  * Created By:袁海龙[314649558@qq.com]
@@ -41,16 +43,59 @@ public class DanLinkedListDemo {
         //删除
         //danLinkedList.delete(hero1);
         danLinkedList.show();
-
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         log.info("当前节点数:{}",danLinkedList.size());
 
+
+        log.info("根据索引反向获取:{}",danLinkedList.getNodeByLastIndex(1));
+        log.info("根据索引正向获取:{}",danLinkedList.getNodeByIndex(2));
+
+
+        danLinkedList.reversalNode();
+
+        log.info("反转后");
+        danLinkedList.show();
+
+        log.info("反向打印");
+        reversalPrint(danLinkedList);
+
     }
+
+
+    /**
+     * 实现单向列表的反向打印[不要改变原链表的结构]
+     * 思路：
+     *    把数据循环压入栈中，利用栈的先进后出原理实现反向打印
+     * @param danLinkedList
+     */
+    public static void reversalPrint(DanLinkedList danLinkedList){
+
+        HeroNode head = danLinkedList.getHead();
+        //链表为空，无需做处理
+        if(!head.hasNext()){
+            return;
+        }
+
+        Stack<HeroNode> stack=new Stack<>();
+
+        HeroNode cur = head.next;
+
+        //数据压入stack中
+        while(true){
+            stack.push(cur);
+            if(!cur.hasNext()){
+                break;
+            }
+            cur=cur.next;
+        }
+
+        //从栈中取出实现反向打印
+        while(!stack.empty()){
+            log.info("{}",stack.pop());
+        }
+
+
+    }
+
 
 }
 
@@ -58,6 +103,7 @@ public class DanLinkedListDemo {
 /**
  * 单向链表对象
  */
+@Data
 @Slf4j(topic = "c.DanLinkedList")
 class DanLinkedList{
 
@@ -87,9 +133,6 @@ class DanLinkedList{
         //将其最后一个节点的next指向需要添加的节点
         temp.next=node;
     }
-
-
-
     /**
      * 按照编号顺序添加
      * @param heroNode
@@ -115,8 +158,6 @@ class DanLinkedList{
             }
             temp=temp.next; //向后移动
         }
-
-
         if(flag){
             log.info("节点[{}]已经被添加咯",heroNode);
         }else {
@@ -125,7 +166,6 @@ class DanLinkedList{
             temp.next=heroNode;
         }
     }
-
     /**
      * 对节点内容修改，编号不能变
      * @param heroNode
@@ -154,7 +194,6 @@ class DanLinkedList{
             log.info("没有修改成功:{}",heroNode);
         }
     }
-
     /**
      * 删除节点:主要是通过no对比【找到要删除节点的前一个节点】
      * @param heroNode
@@ -168,7 +207,6 @@ class DanLinkedList{
             log.info("链表为空~~~~");
             return;
         }
-
         while (true){
             if(!temp.hasNext()){
                 log.info("没有找到需要删除的节点");
@@ -183,7 +221,6 @@ class DanLinkedList{
 
             temp=temp.next;
         }
-
         if(flag){
             //temp.next 表示当前节点，即需要删除的节点
             //当前节点如果么有被任何对象引用由于会被GC回收，所以我们不需要自己删除这个对象
@@ -194,10 +231,7 @@ class DanLinkedList{
         }else{
             log.info("没有找到需要删除的节点");
         }
-
     }
-
-
     /**
      * 获取链表的有效节点数【即排除head节点】
      * @return
@@ -220,6 +254,83 @@ class DanLinkedList{
         return size;
 
     }
+    /**
+     * 正向获取数据
+     * @param index  从0开始
+     * @return
+     */
+    public HeroNode getNodeByIndex(int index){
+        if(!head.hasNext()){
+            return null;
+        }
+        int size=size();  //得到链表节点数
+        if(index>=size || index<0){
+            throw new IndexOutOfBoundsException("链表大小为:"+size+" Index:"+ index);
+        }
+        HeroNode cur = head.next;
+        //循环获取数据
+        for(int i=0;i<index;i++){
+            cur=cur.next;  //向后移，移动到最后一个位置就是我们需要的数据节点
+        }
+        return cur;
+    }
+    /**
+     *
+     * 从尾部根据索引获取节点数据
+     * 根据lastIndex【从链表的尾部开始计数】得到单向链表的数据
+     *
+     * @param lastIndex    索引【从尾部就必须从1开始】
+     * @return
+     */
+    public HeroNode getNodeByLastIndex(int lastIndex){
+        //表示没有数据
+        if(!head.hasNext()){
+            return null;
+        }
+        int size=size();  //得到链表节点数
+        //如果索引超出范围则找不到数据
+        if(lastIndex>size || lastIndex<=0){
+            return null;
+        }
+
+        HeroNode cur = head.next;
+        //循环获取数据
+        for(int i=0;i<size-lastIndex;i++){
+            cur=cur.next;  //向后移，移动到最后一个位置就是我们需要的数据节点
+        }
+        return cur;
+    }
+
+
+    /**
+     * 对单向链表进行反转
+     */
+    public void reversalNode(){
+        //如果单向链表数据为空，或者仅有一个数据，则不需要反转
+        if(!head.hasNext() || !head.next.hasNext()){
+            return;
+        }
+        //定义一个反转的临时头节点，用来协助反转
+        HeroNode reversalHead=new HeroNode();
+        HeroNode cur = head.next;
+        HeroNode next=null;   //指向当前节点的下一个节点
+        /**
+         * 遍历链表
+         */
+        while (cur!=null){
+            next=cur.next;  //获取当前节点的下一个节点
+            cur.next = reversalHead.next;  //将cur的下一个节点指向链表的最前端
+            reversalHead.next=cur; //将cur链接到新的链表上
+            cur=next;//向后移动
+        }
+        //将head的next节点指向reversal的next节点，实现最终的反转
+        head.next=reversalHead.next;
+    }
+
+
+
+
+
 
 
 
@@ -255,20 +366,14 @@ class HeroNode{
     public String name;
     public String nickname;
     public HeroNode next;
-
     public HeroNode(){
 
     }
-
     public HeroNode(int no, String name, String nickname) {
         this.no = no;
         this.name = name;
         this.nickname = nickname;
     }
-
-
-
-
     /**
      * 是否还有下一个节点
      * @return
@@ -276,7 +381,6 @@ class HeroNode{
     public boolean hasNext(){
         return this.next!=null;
     }
-
     @Override
     public String toString() {
         return "HeroNode{" +
