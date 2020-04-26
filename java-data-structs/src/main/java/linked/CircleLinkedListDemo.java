@@ -10,17 +10,12 @@ import lombok.extern.slf4j.Slf4j;
  *    自定义单向环形链表【约瑟夫环问题】
  */
 public class CircleLinkedListDemo {
-
     public static void main(String[] args) {
         CircleLinkedList circleLinkedList=new CircleLinkedList();
         circleLinkedList.init(5);
         circleLinkedList.show();
-
-
         circleLinkedList.countBoy(1,2,5);
-
     }
-
 }
 
 
@@ -77,12 +72,13 @@ class CircleLinkedList{
             helper=helper.getNext();
         }
 
-        //报数前移动k-1次
+        //报数前移动k-1次【从哪个地方开始报数】
         for(int i=0;i<startNo-1;i++){
             first=first.getNext();
             helper=helper.getNext();
         }
 
+        //循环报数[约瑟夫问题]
         while (true){
             if(helper == first){
                 break;
@@ -90,7 +86,7 @@ class CircleLinkedList{
             //first和helper指针同时移动countNum-1
             for(int i=0;i<countNum-1;i++){
                 first=first.getNext();
-                helper=helper.getNext();
+                helper=helper.getNext();   //在first的前一个节点
             }
             //这时first指向的节点就是要出环的节点
             log.info("出圈boy[{}]",first.getId());
@@ -111,6 +107,7 @@ class CircleLinkedList{
         }
 
         //由于first不能动，因此需要一个辅助指针完成遍历
+        //如果动了就没办法判断何时出圈了
         BoyNode curBoy=first;
 
         while (true){
