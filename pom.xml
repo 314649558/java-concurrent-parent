@@ -11,6 +11,9 @@
     <modules>
         <module>java-concurrent-8</module>
         <module>java-concurrent-benchmark</module>
+        <module>java-netty</module>
+        <module>java-data-structs</module>
+        <module>java-hailong-utils</module>
     </modules>
 
 
