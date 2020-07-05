@@ -8,7 +8,7 @@ import java.util.Arrays;
  */
 public class ShellInsertSort {
     public static void main(String[] args) {
-        int[] arr={8,9,1,7,2,3,5,4,6,0};
+        int[] arr={8,9,1,7,2,3,5,4,6,0,-10};
         //shellSortProcess(arr);
         //shellSort(arr);
         shellSort2(arr);
