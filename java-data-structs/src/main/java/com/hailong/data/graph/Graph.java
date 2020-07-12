@@ -22,7 +22,7 @@ public class Graph {
     public Graph(int n) {
         vertexList=new ArrayList<>(n);
         edges=new int[n][n];
-        isVisited=new boolean[n];
+
     }
 
     /**
@@ -84,6 +84,7 @@ public class Graph {
 
 
     public void dfs(){
+        isVisited=new boolean[vertexList.size()];
         //遍历所有的节点，进行DFS
         for(int i=0;i<getNumofVertex();i++){
             if(!isVisited[i]){
@@ -147,6 +148,7 @@ public class Graph {
     /**
      */
     public void bfs(){
+        isVisited=new boolean[vertexList.size()];
         //遍历所有的节点，进行BFS
         for(int i=0;i<getNumofVertex();i++){
             if(!isVisited[i]){
@@ -225,7 +227,8 @@ public class Graph {
 
 
     public static void main(String[] args) {
-        String vetexs[]={"A","B","C","D","E"};
+        //String vetexs[]={"A","B","C","D","E"};
+        String vetexs[]={"1","2","3","4","5","6","7","8"};
 
         //创建图对象
         Graph graph = new Graph(vetexs.length);
@@ -237,11 +240,23 @@ public class Graph {
 
         //添加边
         //A-B,A-C,B-C,B-D,B-E
-        graph.insertEdge(0,1,1);
+       /* graph.insertEdge(0,1,1);
         graph.insertEdge(0,2,1);
         graph.insertEdge(1,2,1);
         graph.insertEdge(1,3,1);
-        graph.insertEdge(1,4,1);
+        graph.insertEdge(1,4,1);*/
+
+
+
+       graph.insertEdge(0,1,1);
+       graph.insertEdge(0,2,1);
+       graph.insertEdge(1,3,1);
+       graph.insertEdge(1,4,1);
+       graph.insertEdge(3,7,1);
+       graph.insertEdge(4,7,1);
+       graph.insertEdge(2,5,1);
+       graph.insertEdge(2,6,1);
+       graph.insertEdge(5,6,1);
 
 
         System.out.println("打印邻接矩阵");
@@ -249,10 +264,10 @@ public class Graph {
 
 
         //测试深度优先遍历
-        /*System.out.println("深度遍历");
-        graph.dfs();*/
+        System.out.println("深度遍历");
+        graph.dfs();
 
-        System.out.println("广度优先");
+        System.out.println("\n广度优先");
         graph.bfs();
     }
 }
