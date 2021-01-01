@@ -35,9 +35,9 @@ public class WXRBExcelUtils {
                 if(rows<5){
                     return null;
                 }
-                int totalColIndex=getColIndex(sheet.getRow(2),"合计金额");
+                int totalColIndex=ExcelUtils.getColIndex(sheet.getRow(2),"合计金额");
 
-                int seqColIndex=getColIndex(sheet.getRow(2),"序号");
+                int seqColIndex=ExcelUtils.getColIndex(sheet.getRow(2),"序号");
                 double hejiAmt=0;
 
                 for (int k=3;k<rows;k++){
@@ -47,10 +47,10 @@ public class WXRBExcelUtils {
                         continue;
                     }
 
-                    String cellValue = getCellValue(row.getCell(seqColIndex));
+                    String cellValue = ExcelUtils.getCellValue(row.getCell(seqColIndex));
                     System.out.println("cellValue  --------------:"+cellValue);
                     if("".equals(cellValue) && hejiAmt==0){
-                        hejiAmt=getAmt(getCellValue(row.getCell(totalColIndex)));
+                        hejiAmt=ExcelUtils.getAmt(ExcelUtils.getCellValue(row.getCell(totalColIndex)));
                     }
 
                     if(hejiAmt>0){
@@ -99,72 +99,7 @@ public class WXRBExcelUtils {
     }
 
 
-    public static String getCellValue(Cell cell){
 
-
-        if(cell==null){
-            return "";
-        }
-
-        CellType cellType=cell.getCellType();
-
-
-        String cellValue="";
-        try{
-            if(cellType==CellType.FORMULA){
-                try {
-                    cellValue = cell.getStringCellValue();
-                } catch (IllegalStateException e) {
-                    cellValue = String.valueOf(cell.getNumericCellValue());
-                }
-            }else if (cellType==CellType.NUMERIC){
-                cellValue = String.valueOf(cell.getNumericCellValue());
-            }else{
-                cellValue=cell.getStringCellValue();
-            }
-        }catch (Exception e){
-            return "";
-        }
-
-
-
-        return cellValue;
-    }
-
-
-    public static int getColIndex(Row row,String flag){
-
-        if(row==null||flag==null || flag==""){
-            return -1;
-        }
-
-        int lastCellNum = row.getLastCellNum()+1;
-
-        for (int i=0;i<lastCellNum;i++){
-
-            String cellValue = getCellValue(row.getCell(i));
-
-            //System.out.println("cellValue:"+cellValue);
-            if(cellValue==null||cellValue==""){
-                continue;
-            }
-            if(flag.equals(cellValue)){
-                return i ;
-            }
-        }
-        return -1;
-    }
-
-
-
-    public static double getAmt(String amt){
-        try {
-            return Double.valueOf(amt);
-        }catch (Exception e){
-            //System.out.println("getAmt:"+amt);
-            return 0;
-        }
-    }
 
 
 
