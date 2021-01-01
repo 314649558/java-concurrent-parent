@@ -84,4 +84,20 @@ public class FileUtils {
         }
     }
 
+
+
+    public static File[] listFiles(String path){
+        if(path==null){
+            return null;
+        }
+
+        File file=new File(path);
+
+        if(!file.exists()){
+            return null;
+        }
+        return file.listFiles();
+    }
+
+
 }
